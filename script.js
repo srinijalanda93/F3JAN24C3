@@ -5,7 +5,9 @@
  */
 async function fetchCoins() {
   //'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
-  const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false");
+  const response = await fetch(
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
+  );
   const data = await response.json();
   return data; //return Promise
 }
@@ -41,13 +43,15 @@ function toggleSortMarketCap() {
 function searchCoins() {
   const searchInput = document.getElementById("searchInput");
   const searchTerm = searchInput.value.toLowerCase();
-fetchCoins().then((data) =>{
-  const filteredData = data.filter((coin) =>
-  coin.name.toLowerCase().includes(searchTerm));
-  SearchrenderTable(filteredData);
-  console.log("the searched data is:",filteredData);
-}).catch((error) => console.error("Error:", error));    
-} 
+  fetchCoins()
+    .then((data) => {
+      const filteredData = data.filter((coin) =>
+        coin.name.toLowerCase().includes(searchTerm)
+      );
+      renderTable(filteredData);
+    })
+    .catch((error) => console.error("Error:", error));
+}
 
 function sortCoins(sortBy) {
   fetchCoins()
@@ -78,12 +82,11 @@ function toggleSortPercentageChange() {
     })
     .catch((error) => console.error('Error:', error));
 }
-
 function renderTable(data) {
   const table = document.getElementById("coinTable");
   data.forEach((coin) => {
     const row = `<tr>
-      <td><img src="${coin.image}" alt="${coin.name}logo" width="32" /></td>
+      <td><img src="${coin.image}" alt="${coin.name} logo" width="32" /></td>
                     
                     <td>${coin.id}</td>
                     <td>${coin.name}</td>
@@ -94,19 +97,3 @@ function renderTable(data) {
     table.innerHTML += row;
   });
 }
-function SearchrenderTable(data) {
-  const table = document.getElementById("coinTable");
-  data.forEach((coin) => {
-    const row = `<tr>
-      <td><img src="${coin.image}" alt="${coin.name}logo" width="32" /></td>
-                    
-                    <td>${coin.id}</td>
-                    <td>${coin.name}</td>
-                    <td>${coin.symbol}</td>
-                    <td>${coin.current_price.toFixed(2)}</td>
-                    <td>${coin.total_volume.toLocaleString()}</td>
-                  </tr>`;
-    table.innerHTML += row;
-  });
-}
-
