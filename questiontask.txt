@@ -1,0 +1,24 @@
+1.To fetch data from an api using .then and async await.
+2.The link for the GET api is https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false
+3.This will return an array of 10 objects, each containing 
+a name,id,image,symbol, current_price,total_volume.
+4.Render all of them in the form of a table as given in the UI.
+5.Handle the promise using both methods, .then and using async await.
+6.Create a search button which allows the user to search and filter the data based on the input.
+7.Create a sort button which allows the user to sort the data based on market cap and percentage change.
+
+//toFixed(2) -> the number which in point formate like 3.14567 
+//var.toFixed(2) ->3.14 only take 2 place of numbers
+
+//toLocaleString() ->used to number to convert into string formate where the number are separated by commas with their places
+//567834.toLocaleString() ->5,67,834
+
+
+ fetchCoins()
+    .then((data) => {
+      const filteredData = data.filter((coin) =>
+        coin.name.toLowerCase().includes(searchTerm)
+      );
+      renderTable(filteredData);
+    })
+    .catch((error) => console.error("Error:", error));
