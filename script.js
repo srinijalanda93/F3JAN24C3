@@ -5,9 +5,7 @@
  */
 async function fetchCoins() {
   //'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
-  const response = await fetch(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
-  );
+  const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false");
   const data = await response.json();
   return data; //return Promise
 }
@@ -20,8 +18,63 @@ fetchCoins()
   .catch((error) => {
     console.error("Error:", error);
   });
-  let isMarketCapAscending = true;
 
+  //Table Ui
+  function renderTable(data) {
+    const tablebody = document.querySelector("#coinTable >tbody");
+    console.log("the table object is : ",tablebody);
+    console.log("the table object is : ",tablebody.childElementCount );
+    if(tablebody.childElementCount===0){
+        //mean no tag inside the tablebody
+    data.forEach((coin) => {
+        const row = `<tr>
+            <td><img src="${coin.image}" alt="${coin.name} logo" width="32" /></td>
+            <td>${coin.id}</td>
+            <td>${coin.name}</td>
+            <td>${coin.symbol}</td>
+            <td>${coin.current_price.toFixed(2)}</td>
+            <td>${coin.total_volume.toLocaleString()}</td>
+        </tr>`;
+        tablebody.innerHTML += row;
+    });
+    }else{
+        tablebody.innerHTML="" //clear the previous tag inside the tbody
+        data.forEach((coin) => {
+            const row = `<tr>
+                <td><img src="${coin.image}" alt="${coin.name} logo" width="32" /></td>
+                <td>${coin.id}</td>
+                <td>${coin.name}</td>
+                <td>${coin.symbol}</td>
+                <td>${coin.current_price.toFixed(2)}</td>
+                <td>${coin.total_volume.toLocaleString()}</td>
+            </tr>`;
+            tablebody.innerHTML += row;
+        });
+    }
+}
+
+
+
+function searchCoins() {
+  const searchInput = document.getElementById("searchInput");
+  const searchTerm = searchInput.value.toLowerCase();
+  fetchCoins()
+    .then((data) => {
+      const matchedCoin = data.find(coin => coin.name.toLowerCase() === searchTerm);
+    
+      // If a matching coin is found, update the table with only that coin
+      if (matchedCoin) {
+          renderTable([matchedCoin]);
+      } else {
+          console.log("No matching coin found");
+          // Handle the case where no matching coin is found (e.g., show an error message)
+      }
+    }).catch((error) => console.error("Error:", error));
+}
+
+
+
+let isMarketCapAscending = false;
 function toggleSortMarketCap() {
   fetchCoins()
     .then((data) => {
@@ -32,68 +85,27 @@ function toggleSortMarketCap() {
           return a.market_cap - b.market_cap;
         }
       });
+      console.log("the sorted data",sortedData)
       renderTable(sortedData);
-      isMarketCapAscending = !isMarketCapAscending;
+      isMarketCapAscending = !isMarketCapAscending; //making it as false
     })
     .catch((error) => console.error('Error:', error));
 }
 
 
-
-function searchCoins() {
-  const searchInput = document.getElementById("searchInput");
-  const searchTerm = searchInput.value.toLowerCase();
-  fetchCoins()
-    .then((data) => {
-      const filteredData = data.filter((coin) =>
-        coin.name.toLowerCase().includes(searchTerm)
-      );
-      renderTable(filteredData);
-    })
-    .catch((error) => console.error("Error:", error));
-}
-
-function sortCoins(sortBy) {
-  fetchCoins()
-    .then((data) => {
-      const sortedData = data.sort((a, b) =>
-        a[sortBy] > b[sortBy] ? 1 : b[sortBy] > a[sortBy] ? -1 : 0
-      );
-      renderTable(sortedData);
-    })
-    .catch((error) => console.error("Error:", error));
-}
-
-
-let isPercentageChangeAscending = true;
-
+let isPercentageChangeAscending = false;
 function toggleSortPercentageChange() {
   fetchCoins()
     .then((data) => {
       const sortedData = data.sort((a, b) => {
         if (isPercentageChangeAscending) {
-          return b.percentage_change_24h - a.percentage_change_24h;
+          return b.market_cap_change_percentage_24h- a.market_cap_change_percentage_24h;
         } else {
-          return a.percentage_change_24h - b.percentage_change_24h;
+          return a.market_cap_change_percentage_24h- b.market_cap_change_percentage_24h;
         }
       });
       renderTable(sortedData);
-      isPercentageChangeAscending = !isPercentageChangeAscending;
+      isPercentageChangeAscending = !isPercentageChangeAscending; //to make it false
     })
     .catch((error) => console.error('Error:', error));
-}
-function renderTable(data) {
-  const table = document.getElementById("coinTable");
-  data.forEach((coin) => {
-    const row = `<tr>
-      <td><img src="${coin.image}" alt="${coin.name} logo" width="32" /></td>
-                    
-                    <td>${coin.id}</td>
-                    <td>${coin.name}</td>
-                    <td>${coin.symbol}</td>
-                    <td>${coin.current_price.toFixed(2)}</td>
-                    <td>${coin.total_volume.toLocaleString()}</td>
-                  </tr>`;
-    table.innerHTML += row;
-  });
 }
