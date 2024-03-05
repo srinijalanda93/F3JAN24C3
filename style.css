@@ -2,30 +2,34 @@
   font-family: inter;
   margin: 0px;
   padding: 0px;
-  background-color: #1A1A1C;
-  color:white;
+  background-color: #1a1a1c;
+  color: white;
 }
 .headpart {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-block: 30px;
-  /* width:50vw;
-  height:20vh; */
+
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  z-index: 100;
 }
-.headpart>input{
-    border: 2px solid #8E8E8E;
-    padding-inline:15%;
-    padding-block: 0.5%;
-    border-radius: 3px;
-    margin-right: 4px;
+.headpart > input {
+  border: 2px solid #8e8e8e;
+  padding-inline: 15%;
+  padding-block: 0.5%;
+  border-radius: 3px;
+  margin-right: 4px;
 }
-.headpart>button{
-    border: 2px solid #8E8E8E;
-    padding-inline:1%;
-    padding-block: 0.5%;
-    border-radius: 3px;
-    margin-right: 4px;
+.headpart > button {
+  border: 2px solid #8e8e8e;
+  padding-inline: 1%;
+  padding-block: 0.5%;
+  border-radius: 3px;
+  margin-right: 4px;
 }
 /* #coinTable {
  margin:auto;
@@ -48,24 +52,92 @@
     text-align:center;
     font-size: 23px;
   } */
- 
-  #coinTable {
-    margin: auto;
-    width: 80%; /* Adjust the width as needed */
-    border-collapse: collapse; /* To collapse the borders and prevent double borders */
-  }
-  
-  #coinTable th,
-  #coinTable td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid whitesmoke;
 
+#coinTable {
+  margin: auto;
+  width: 80%; /* Adjust the width as needed */
+  border-collapse: collapse; /* To collapse the borders and prevent double borders */
+}
+
+#coinTable th,
+#coinTable td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid whitesmoke;
+}
+#coinTable th {
+  font-size: 13px;
+}
+#coinTable td {
+  font-size: 18px;
+}
+#coinTable thead {
+  position: sticky;
+  top: 50px;
+}
+
+/*adding the media queries*/
+
+@media screen and (max-width: 480px) {
+  .headpart {
+    width: 590px !important;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+    border: 1px solid greenyellow;
+    box-sizing: border-box !important;
+    overflow: hidden;
+    height: 70px;
+    flex-wrap: wrap;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    margin: auto;
   }
-  #coinTable th {
-    font-size: 13px;
+  .headpart input {
+    margin-bottom: 9px;
   }
-  #coinTable td {
-    font-size: 18px;
+  #coinTable {
+    width: 100% !important;
+    margin: auto;
   }
-  
+  #coinTable thead {
+    position: sticky;
+    top: 55px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .headpart {
+    width: 590px !important;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+    /* border: 1px solid greenyellow; */
+    box-sizing: border-box !important;
+    overflow: hidden;
+    height: 70px;
+    flex-wrap: wrap;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    margin: auto;
+  }
+  .headpart input {
+    margin-bottom: 9px;
+  }
+  #coinTable {
+    width: 100% !important;
+    margin: auto;
+  }
+  #coinTable thead {
+    position: sticky;
+    top: 55px;
+  }
+}

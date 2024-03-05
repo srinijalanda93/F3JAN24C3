@@ -326,12 +326,15 @@ let arrObj=[
 
 
     function searchCoins() {
-        const searchInput = document.getElementById('searchInput');
+       const searchInput = document.getElementById('searchInput');
+
         const searchTerm = searchInput.value.toLowerCase();
     
         // Find the coin that matches the search term
         const matchedCoin = arrObj.find(coin => coin.name.toLowerCase() === searchTerm);
-    
+        //const matchedCoins = arrObj.filter(coin => coin.name.toLowerCase().includes(searchTerm));
+
+        console.log("the serched object is ",matchedCoin)
         // If a matching coin is found, update the table with only that coin
         if (matchedCoin) {
             renderTable([matchedCoin]);
