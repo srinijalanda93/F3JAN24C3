@@ -19,6 +19,10 @@ fetchCoins()
     console.error("Error:", error);
   });
 
+  const backBtn=document.querySelector('.headpart>button');
+  addEventListener.backBtn(()=>{
+    renderTable(data) 
+  })
   //Table Ui
   function renderTable(data) {
     const tablebody = document.querySelector("#coinTable >tbody");

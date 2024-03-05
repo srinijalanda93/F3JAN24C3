@@ -323,11 +323,19 @@ let arrObj=[
     window.onload = function () {
         renderTable(arrObj);
     };
+    const backBtn = document.querySelector('.headpart > button');
 
+    backBtn.addEventListener('click', () => {
+      renderTable(arrObj);
+    });
+    
+    function  ResultNotFound(searchTerm){
+       
+        alert(`${searchTerm}  DATE NOT FOUND`);
+     }
 
     function searchCoins() {
        const searchInput = document.getElementById('searchInput');
-
         const searchTerm = searchInput.value.toLowerCase();
     
         // Find the coin that matches the search term
@@ -337,13 +345,18 @@ let arrObj=[
         console.log("the serched object is ",matchedCoin)
         // If a matching coin is found, update the table with only that coin
         if (matchedCoin) {
+            searchInput.value = '';
             renderTable([matchedCoin]);
         } else {
+            searchInput.value = '';
             console.log("No matching coin found");
+            ResultNotFound(searchTerm);
             // Handle the case where no matching coin is found (e.g., show an error message)
         }
     }
     
+
+
     let isMarketCapAscending = false;
     function toggleSortMarketCap() {
         const sortedData = arrObj.sort((a, b) => {
